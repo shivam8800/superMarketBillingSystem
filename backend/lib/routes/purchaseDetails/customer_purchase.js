@@ -17,7 +17,7 @@ module.exports = Helpers.withDefaults([
 			handler: async (request, h) => {
 				return new Promise((resolve, reject) => {
 					const { itemService } = request.services();
-
+					// return resolve({ error: true, message: 'server error' });
 					var data = request.payload;
 					if (data.file) {
 						const name = data.file.hapi.filename;
@@ -68,6 +68,7 @@ module.exports = Helpers.withDefaults([
 													rate_before_discount,
 													item[0]
 												);
+
 									rate_after_discount = rate_before_discount - discount;
 									total_rate_before_discount += rate_before_discount;
 									total_rate_after_discount += rate_after_discount;

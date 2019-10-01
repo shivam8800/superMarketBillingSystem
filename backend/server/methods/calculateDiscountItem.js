@@ -8,16 +8,21 @@ module.exports = {
 				let discount = 0;
 
 				if (item_object['freeItems'] > 0 && quantity > item_object['purchaseItems']) {
-					let total_free_item_customer_get;
+					let total_free_item_customer_get = 0;
+					let number_of_items_purchased = 0;
 
-					let reminder = quantity % item_object['purchaseItems'];
+					while (number_of_items_purchased !== quantity) {
+						if (number_of_items_purchased >= quantity) {
+							number_of_items_purchased += quantity - number_of_items_purchased;
+							total_free_item_customer_get = total_free_item_customer_get - item_object['freeItems'];
+						} else {
+							number_of_items_purchased =
+								number_of_items_purchased + item_object['freeItems'] + item_object['purchaseItems'];
+							total_free_item_customer_get += item_object['freeItems'];
+						}
+					}
 
-					total_free_item_customer_get =
-						reminder == 0
-							? Math.floor(quantity / item_object['purchaseItems']) - 1
-							: Math.floor(quantity / item_object['purchaseItems']);
-
-					discount = total_free_item_customer_get * item_object['rate'] * item_object['freeItems'];
+					discount = total_free_item_customer_get * item_object['rate'];
 				}
 				return resolve(discount);
 			});

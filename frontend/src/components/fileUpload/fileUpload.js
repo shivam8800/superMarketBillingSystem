@@ -5,20 +5,21 @@ import { fileUploadService } from '../../network/Api';
 class fileUpload extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { display: 'flex', apiData: {} };
+		this.state = { display: 'flex', apiData: {}, error: '' };
 	}
 
 	uploadFile(event) {
 		document.getElementsByClassName('label')[0].innerText = event.target.files[0].name;
-		this.setState({ display: 'none' });
 
-		fileUploadService(event.target.files[0])
-			.then((responseJson) => {
+		fileUploadService(event.target.files[0]).then((responseJson) => {
+			if (responseJson['error']) {
+				console.log(responseJson, ' responseJson');
+				this.setState({ error: responseJson['message'] });
+			} else {
+				this.setState({ display: 'none' });
 				this.setState({ apiData: responseJson });
-			})
-			.catch((error) => {
-				console.log(error.error);
-			});
+			}
+		});
 	}
 
 	render() {
@@ -63,6 +64,9 @@ class fileUpload extends React.Component {
 		return (
 			<div className="App">
 				<div>
+					<div>
+						<p>{this.state.error}</p>
+					</div>
 					<h1>
 						Text file formated supported only and file should have only one customer purchasing details{' '}
 					</h1>

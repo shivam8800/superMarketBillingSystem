@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 const BASE_URL = 'http://localhost:4001/customer_purchase_details';
 
 export const fileUploadService = (file) => {
@@ -11,12 +9,8 @@ export const fileUploadService = (file) => {
 	}).then((response) => {
 		return response.json();
 	});
-	api
-		.then((responseJson) => {
-			return responseJson;
-		})
-		.catch((error) => {
-			console.error(error);
-		});
+	api.then((responseJson) => {
+		return responseJson;
+	});
 	return api;
 };
